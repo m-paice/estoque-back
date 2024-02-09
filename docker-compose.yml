@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  postgresql:
+    container_name: postgresql-estoque
+    image: postgres:11.2-alpine
+    command: postgres -c 'max_connections=500'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: estoque
+    restart: always
+    shm_size: '256mb'
+    ports:
+      - 5436:5432
