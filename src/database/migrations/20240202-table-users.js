@@ -17,6 +17,7 @@ module.exports = {
         onDelete: 'CASCADE',
       },
       name: Sequelize.STRING,
+      type: Sequelize.STRING,
       cellPhone: Sequelize.STRING,
       password: Sequelize.STRING,
       createdAt: {

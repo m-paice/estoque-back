@@ -5,8 +5,9 @@ export const rulesUsers = {
     try {
       z.object({
         name: z.string().min(3).max(255),
+        type: z.enum(['pf', 'pj']),
         cellPhone: z.string().min(3).max(255),
-        password: z.string().min(3).max(255),
+        password: z.string().min(3).max(255).optional(),
       }).parse(req.body);
 
       next();

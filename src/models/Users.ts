@@ -6,6 +6,7 @@ export type UserInstance = {
   id: string;
   accountId: string;
   name: string;
+  type: 'pf' | 'pj';
   cellPhone: string;
   password: string;
   createdAt?: Date;
@@ -22,6 +23,11 @@ const User = sequelize.define(
       primaryKey: true,
     },
     name: Sequelize.STRING,
+    type: {
+      type: Sequelize.ENUM('pf', 'pj'),
+      allowNull: false,
+      defaultValue: 'pf',
+    },
     cellPhone: {
       type: Sequelize.STRING,
       unique: true,
