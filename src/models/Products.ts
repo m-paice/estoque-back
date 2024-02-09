@@ -1,20 +1,25 @@
-import Sequelize from 'sequelize';
+import Sequelize, { CreationOptional, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 
 import sequelize from '../services/sequelize';
 
-export type ProductsInstance = {
-  id: string;
+// models
+import Account from './Accounts';
+import Orders from './Orders';
+import OrderProducts from './OrdersProducts';
+
+export interface ProductModel extends Model<InferAttributes<ProductModel>, InferCreationAttributes<ProductModel>> {
+  id: CreationOptional<string>;
   accountId: string;
   name: string;
   description: string;
   price: number;
   amount: number;
-  createdAt?: Date;
-  updatedAt?: Date;
-  deletedAt?: Date;
-};
+  createdAt: CreationOptional<Date>;
+  updatedAt: CreationOptional<Date>;
+  deletedAt?: CreationOptional<Date | null>;
+}
 
-const Products = sequelize.define(
+const Products = sequelize.define<ProductModel>(
   'Products',
   {
     id: {
@@ -22,6 +27,7 @@ const Products = sequelize.define(
       defaultValue: Sequelize.UUIDV4,
       primaryKey: true,
     },
+    accountId: Sequelize.UUID,
     name: Sequelize.STRING,
     description: Sequelize.STRING,
     price: Sequelize.FLOAT,
@@ -44,10 +50,16 @@ const Products = sequelize.define(
   },
 );
 
-Products.associate = (models) => {
-  Products.belongsTo(models.Accounts, {
+Products.associate = () => {
+  Products.belongsTo(Account, {
     foreignKey: 'accountId',
     as: 'account',
+  });
+
+  Products.belongsToMany(Orders, {
+    through: OrderProducts,
+    foreignKey: 'productId',
+    as: 'orders',
   });
 };
 

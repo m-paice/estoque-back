@@ -1,21 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
     queryInterface.createTable('orders_products', {
-      id: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
-        primaryKey: true,
-        allowNull: false,
-      },
-      accountId: {
-        type: Sequelize.UUID,
-        references: {
-          model: 'accounts',
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-      },
       orderId: {
         type: Sequelize.UUID,
         references: {
@@ -33,6 +18,18 @@ module.exports = {
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
+      },
+      amount: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      price: {
+        type: Sequelize.DECIMAL(10, 2),
+        allowNull: false,
+      },
+      subtotal: {
+        type: Sequelize.DECIMAL(10, 2),
+        allowNull: false,
       },
       createdAt: {
         type: Sequelize.DATE,

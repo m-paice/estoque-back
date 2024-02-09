@@ -26,6 +26,10 @@ module.exports = {
         onDelete: 'CASCADE',
       },
       total: Sequelize.DECIMAL(10, 2),
+      status: {
+        type: Sequelize.ENUM('pending', 'canceled', 'delivered', 'in_progress', 'approved'),
+        allowNull: false,
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
