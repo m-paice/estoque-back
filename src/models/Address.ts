@@ -2,20 +2,25 @@ import Sequelize, { CreationOptional, InferAttributes, InferCreationAttributes, 
 
 import sequelize from '../services/sequelize';
 
-export interface UserInstance extends Model<InferAttributes<UserInstance>, InferCreationAttributes<UserInstance>> {
+export interface AddressInstance
+  extends Model<InferAttributes<AddressInstance>, InferCreationAttributes<AddressInstance>> {
   id: CreationOptional<string>;
   accountId: string;
-  name: string;
-  type: 'pf' | 'pj';
-  cellPhone: string;
-  password: string;
+  street: string;
+  number: string;
+  complement: string;
+  neighborhood: string;
+  city: string;
+  state: string;
+  country: string;
+  zipCode: string;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
 }
 
-const User = sequelize.define<UserInstance>(
-  'User',
+const Address = sequelize.define<AddressInstance>(
+  'Address',
   {
     id: {
       type: Sequelize.UUID,
@@ -26,17 +31,14 @@ const User = sequelize.define<UserInstance>(
       type: Sequelize.UUID,
       allowNull: false,
     },
-    name: Sequelize.STRING,
-    type: {
-      type: Sequelize.ENUM('pf', 'pj'),
-      allowNull: false,
-      defaultValue: 'pf',
-    },
-    cellPhone: {
-      type: Sequelize.STRING,
-      unique: true,
-    },
-    password: Sequelize.STRING,
+    street: Sequelize.STRING,
+    number: Sequelize.STRING,
+    complement: Sequelize.STRING,
+    neighborhood: Sequelize.STRING,
+    city: Sequelize.STRING,
+    state: Sequelize.STRING,
+    country: Sequelize.STRING,
+    zipCode: Sequelize.STRING,
     createdAt: {
       type: Sequelize.DATE,
       allowNull: false,
@@ -50,21 +52,20 @@ const User = sequelize.define<UserInstance>(
     },
   },
   {
-    tableName: 'users',
+    tableName: 'address',
     paranoid: true,
   },
 );
 
-User.associate = (models) => {
-  User.belongsTo(models.Accounts, {
+Address.associate = (models) => {
+  Address.belongsTo(models.Accounts, {
     foreignKey: 'accountId',
     as: 'account',
   });
-
-  User.hasMany(models.Address, {
+  Address.belongsTo(models.Users, {
     foreignKey: 'userId',
-    as: 'addresses',
+    as: 'user',
   });
 };
 
-export default User;
+export default Address;
