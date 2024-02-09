@@ -4,6 +4,7 @@ export const rulesOrders = {
   create: (req, res, next) => {
     try {
       z.object({
+        accountId: z.string().uuid(),
         userId: z.string().min(3).max(255),
         products: z.array(
           z.object({
@@ -20,9 +21,7 @@ export const rulesOrders = {
   },
   update: (req, res, next) => {
     try {
-      z.object({
-        name: z.string().min(3).max(255),
-      }).parse(req.body);
+      z.object({}).parse(req.body);
 
       next();
     } catch (error) {

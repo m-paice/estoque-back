@@ -4,6 +4,7 @@ export const rulesUsers = {
   create: (req, res, next) => {
     try {
       z.object({
+        accountId: z.string().uuid(),
         name: z.string().min(3).max(255),
         type: z.enum(['pf', 'pj']),
         cellPhone: z.string().min(3).max(255),

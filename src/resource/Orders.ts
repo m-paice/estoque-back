@@ -19,6 +19,8 @@ export const create = async (data: OrderCreateRequest) => {
   let transaction;
   try {
     transaction = await sequelize.transaction();
+
+    // create order
     const order = await Orders.create(
       {
         userId: data.userId,
@@ -29,15 +31,16 @@ export const create = async (data: OrderCreateRequest) => {
 
     let total = 0;
 
+    // create order products
     await queuedAsyncMap(data.products, async (item) => {
       const product = await Products.findByPk(item.id, { transaction });
-
+      // check if product exists
       if (!product) throw new HttpError(404, 'Product not found');
-
+      // check if product amount is sufficient
       if (product.amount < item.amount) throw new HttpError(400, 'Insufficient stock');
-
+      // calculate total
       total += item.amount * product.price;
-
+      // add product to order
       await order.addProduct(product, {
         through: {
           amount: item.amount,
@@ -46,10 +49,10 @@ export const create = async (data: OrderCreateRequest) => {
         },
         transaction,
       });
-
+      // decrement product amount
       await Products.decrement('amount', { by: item.amount, where: { id: item.id }, transaction });
     });
-
+    // update order total
     await order.update({ total }, { transaction });
 
     await transaction.commit();

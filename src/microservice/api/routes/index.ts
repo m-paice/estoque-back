@@ -1,5 +1,6 @@
 import { Router } from 'express';
 
+import authRoutes from './Auth';
 import accountsRoutes from './Accounts';
 import usersRoutes from './Users';
 import productsRoutes from './Products';
@@ -11,6 +12,7 @@ const routes = Router();
 
 routes.use(loggers.default.requestLogger);
 
+routes.use('/auth', authRoutes);
 routes.use('/users', usersRoutes);
 routes.use('/accounts', accountsRoutes);
 routes.use('/products', productsRoutes);
