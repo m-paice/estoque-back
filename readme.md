@@ -1,4 +1,4 @@
-# API Node.js com PostgreSQL
+# API Node.js com PostgreSQL 🚀
 
 Esta é uma API simples desenvolvida em Node.js com banco de dados PostgreSQL. A API fornece endpoints para realizar operações CRUD (Create, Read, Update, Delete) em recursos específicos.
 
@@ -36,13 +36,13 @@ docker-compose up -d
 npx sequelize db:migrate
 ```
 
-4. Rodar seeds
+5. Rodar seeds
 
 ```bash
 npx sequelize db:seed:all
 ```
 
-4. Iniciar projeto em desenvolvimento
+6. Iniciar projeto em desenvolvimento
 
 ```bash
 npm run dev
