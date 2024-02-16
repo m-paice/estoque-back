@@ -13,6 +13,7 @@ module.exports = {
           model: 'accounts',
           key: 'id',
         },
+        allowNull: false,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },

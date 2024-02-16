@@ -1,15 +1,12 @@
 import { z } from 'zod';
 
-export const rulesProducts = {
+export const rulesCategories = {
   create: (req, res, next) => {
     try {
       z.object({
         accountId: z.string().uuid(),
-        categoryId: z.string().uuid().nullable().default(null),
         name: z.string().min(3).max(255),
-        description: z.string().min(3).max(255),
-        price: z.number().min(0),
-        amount: z.number().min(0),
+        description: z.string().default(''),
       }).parse(req.body);
 
       next();
@@ -19,12 +16,7 @@ export const rulesProducts = {
   },
   update: (req, res, next) => {
     try {
-      z.object({
-        name: z.string().min(3).max(255),
-        description: z.string().min(3).max(255),
-        price: z.number().min(0),
-        amount: z.number().min(0),
-      }).parse(req.body);
+      z.object({}).parse(req.body);
 
       next();
     } catch (error) {

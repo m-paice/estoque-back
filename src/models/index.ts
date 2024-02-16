@@ -4,6 +4,7 @@ import Products from './Products';
 import Orders from './Orders';
 import OrderProducts from './OrdersProducts';
 import Address from './Address';
+import Categories from './Categories';
 
 export default {
   Accounts,
@@ -12,4 +13,5 @@ export default {
   Orders,
   OrderProducts,
   Address,
+  Categories,
 };

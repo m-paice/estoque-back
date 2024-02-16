@@ -5,13 +5,35 @@ export const rulesOrders = {
     try {
       z.object({
         accountId: z.string().uuid(),
-        userId: z.string().min(3).max(255),
+        userId: z.string().min(3).max(255).nullable().default(null),
+        user: z
+          .object({
+            name: z.string().min(3).max(255),
+            cellPhone: z.string().min(3).max(255),
+            address: z
+              .object({
+                zipCode: z.string().min(3).max(255),
+                street: z.string().min(3).max(255),
+                number: z.string().min(3).max(255),
+                complement: z.string().min(3).max(255),
+                neighborhood: z.string().min(3).max(255),
+                city: z.string().min(3).max(255),
+                state: z.string().min(3).max(255),
+              })
+              .nullable()
+              .default(null),
+          })
+          .nullable()
+          .default(null),
         products: z.array(
           z.object({
             id: z.string().min(3).max(255),
             amount: z.number().min(1),
           }),
         ),
+        paymentMethod: z.enum(['credit_card', 'debit_card', 'billet', 'cash', 'pix']),
+        addition: z.number().min(0).default(0),
+        discount: z.number().min(0).default(0),
       }).parse(req.body);
 
       next();

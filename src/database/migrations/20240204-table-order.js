@@ -13,6 +13,7 @@ module.exports = {
           model: 'accounts',
           key: 'id',
         },
+        allowNull: false,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
@@ -25,10 +26,15 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
+      addition: Sequelize.DECIMAL(10, 2),
+      discount: Sequelize.DECIMAL(10, 2),
+      subtotal: Sequelize.DECIMAL(10, 2),
       total: Sequelize.DECIMAL(10, 2),
+      paymentMethod: {
+        type: Sequelize.ENUM('credit_card', 'debit_card', 'billet', 'pix', 'cash'),
+      },
       status: {
         type: Sequelize.ENUM('pending', 'canceled', 'delivered', 'in_progress', 'approved'),
-        allowNull: false,
       },
       createdAt: {
         type: Sequelize.DATE,

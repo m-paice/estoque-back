@@ -6,6 +6,7 @@ import sequelize from '../services/sequelize';
 import Account from './Accounts';
 import Orders from './Orders';
 import OrderProducts from './OrdersProducts';
+import Categories from './Categories';
 
 export interface ProductModel extends Model<InferAttributes<ProductModel>, InferCreationAttributes<ProductModel>> {
   id: CreationOptional<string>;
@@ -27,7 +28,10 @@ const Products = sequelize.define<ProductModel>(
       defaultValue: Sequelize.UUIDV4,
       primaryKey: true,
     },
-    accountId: Sequelize.UUID,
+    accountId: {
+      type: Sequelize.UUID,
+      allowNull: false,
+    },
     name: Sequelize.STRING,
     description: Sequelize.STRING,
     price: Sequelize.FLOAT,
@@ -54,6 +58,11 @@ Products.associate = () => {
   Products.belongsTo(Account, {
     foreignKey: 'accountId',
     as: 'account',
+  });
+
+  Products.belongsTo(Categories, {
+    foreignKey: 'categoryId',
+    as: 'category',
   });
 
   Products.belongsToMany(Orders, {

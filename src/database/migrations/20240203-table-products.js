@@ -13,8 +13,18 @@ module.exports = {
           model: 'accounts',
           key: 'id',
         },
+        allowNull: false,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
+      },
+      categoryId: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'categories',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
       },
       name: Sequelize.STRING,
       description: Sequelize.STRING,

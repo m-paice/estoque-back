@@ -13,6 +13,10 @@ interface OrderModel extends Model<InferAttributes<OrderModel>, InferCreationAtt
   userId: string;
   total: CreationOptional<number>;
   status: CreationOptional<'pending' | 'canceled' | 'delivered' | 'in_progress' | 'approved'>;
+  paymentMethod: CreationOptional<'credit_card' | 'debit_card' | 'billet' | 'cash' | 'pix'>;
+  addition: CreationOptional<number>;
+  discount: CreationOptional<number>;
+  subtotal: CreationOptional<number>;
   createdAt: CreationOptional<Date>;
   updatedAt: CreationOptional<Date>;
   deletedAt: CreationOptional<Date | null>;
@@ -37,17 +41,34 @@ const Orders = sequelize.define<OrderModel>(
     },
     userId: {
       type: DataTypes.UUID,
-      allowNull: false,
     },
     total: {
       type: DataTypes.FLOAT,
-      allowNull: false,
+
+      defaultValue: 0,
+    },
+    addition: {
+      type: DataTypes.FLOAT,
+
+      defaultValue: 0,
+    },
+    discount: {
+      type: DataTypes.FLOAT,
+
+      defaultValue: 0,
+    },
+    subtotal: {
+      type: DataTypes.FLOAT,
+
       defaultValue: 0,
     },
     status: {
       type: DataTypes.ENUM('pending', 'canceled', 'delivered', 'in_progress', 'approved'),
-      allowNull: false,
+
       defaultValue: 'pending',
+    },
+    paymentMethod: {
+      type: DataTypes.ENUM('credit_card', 'debit_card', 'billet', 'cash', 'pix'),
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -59,7 +80,6 @@ const Orders = sequelize.define<OrderModel>(
     },
     deletedAt: {
       type: DataTypes.DATE,
-      allowNull: true,
     },
   },
   {

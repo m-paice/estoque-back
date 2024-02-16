@@ -16,8 +16,14 @@ export type OrdersProductsInstance = {
 export const OrderProducts = sequelize.define(
   'OrderProducts',
   {
-    orderId: DataTypes.UUID,
-    productId: DataTypes.UUID,
+    orderId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+    productId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
     amount: DataTypes.INTEGER,
     price: DataTypes.FLOAT,
     subtotal: DataTypes.FLOAT,
@@ -33,7 +39,6 @@ export const OrderProducts = sequelize.define(
     },
     deletedAt: {
       type: DataTypes.DATE,
-      allowNull: true,
     },
   },
   {

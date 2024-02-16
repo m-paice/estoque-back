@@ -2,20 +2,19 @@ import Sequelize, { CreationOptional, InferAttributes, InferCreationAttributes, 
 
 import sequelize from '../services/sequelize';
 
-export interface UserInstance extends Model<InferAttributes<UserInstance>, InferCreationAttributes<UserInstance>> {
+export interface CategoriesInstance
+  extends Model<InferAttributes<CategoriesInstance>, InferCreationAttributes<CategoriesInstance>> {
   id: CreationOptional<string>;
   accountId: string;
   name: string;
-  type: 'pf' | 'pj';
-  cellPhone: string;
-  password: string;
+  description: string;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
 }
 
-const User = sequelize.define<UserInstance>(
-  'User',
+const Categories = sequelize.define<CategoriesInstance>(
+  'Categories',
   {
     id: {
       type: Sequelize.UUID,
@@ -27,16 +26,7 @@ const User = sequelize.define<UserInstance>(
       allowNull: false,
     },
     name: Sequelize.STRING,
-    type: {
-      type: Sequelize.ENUM('pf', 'pj'),
-
-      defaultValue: 'pf',
-    },
-    cellPhone: {
-      type: Sequelize.STRING,
-      unique: true,
-    },
-    password: Sequelize.STRING,
+    description: Sequelize.STRING,
     createdAt: {
       type: Sequelize.DATE,
       allowNull: false,
@@ -50,21 +40,16 @@ const User = sequelize.define<UserInstance>(
     },
   },
   {
-    tableName: 'users',
+    tableName: 'categories',
     paranoid: true,
   },
 );
 
-User.associate = (models) => {
-  User.belongsTo(models.Accounts, {
+Categories.associate = (models) => {
+  Categories.belongsTo(models.Accounts, {
     foreignKey: 'accountId',
     as: 'account',
   });
-
-  User.hasMany(models.Address, {
-    foreignKey: 'userId',
-    as: 'addresses',
-  });
 };
 
-export default User;
+export default Categories;

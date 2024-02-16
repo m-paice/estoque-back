@@ -7,6 +7,7 @@ module.exports = {
           model: 'orders',
           key: 'id',
         },
+        allowNull: false,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
@@ -16,20 +17,18 @@ module.exports = {
           model: 'products',
           key: 'id',
         },
+        allowNull: false,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
       amount: {
         type: Sequelize.INTEGER,
-        allowNull: false,
       },
       price: {
         type: Sequelize.DECIMAL(10, 2),
-        allowNull: false,
       },
       subtotal: {
         type: Sequelize.DECIMAL(10, 2),
-        allowNull: false,
       },
       createdAt: {
         type: Sequelize.DATE,

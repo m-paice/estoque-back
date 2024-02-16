@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('users', {
+    queryInterface.createTable('categories', {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -18,9 +18,7 @@ module.exports = {
         onDelete: 'CASCADE',
       },
       name: Sequelize.STRING,
-      type: Sequelize.STRING,
-      cellPhone: Sequelize.STRING,
-      password: Sequelize.STRING,
+      description: Sequelize.STRING,
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -34,5 +32,5 @@ module.exports = {
       },
     }),
 
-  down: (queryInterface) => queryInterface.dropTable('users'),
+  down: (queryInterface) => queryInterface.dropTable('categories'),
 };
