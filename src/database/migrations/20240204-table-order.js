@@ -31,10 +31,10 @@ module.exports = {
       subtotal: Sequelize.DECIMAL(10, 2),
       total: Sequelize.DECIMAL(10, 2),
       paymentMethod: {
-        type: Sequelize.ENUM('credit_card', 'debit_card', 'billet', 'pix', 'cash'),
+        type: Sequelize.ENUM('card', 'pix', 'cash'),
       },
       status: {
-        type: Sequelize.ENUM('pending', 'canceled', 'delivered', 'in_progress', 'approved'),
+        type: Sequelize.ENUM('awaiting', 'canceled', 'delivered', 'in_progress', 'approved'),
       },
       createdAt: {
         type: Sequelize.DATE,

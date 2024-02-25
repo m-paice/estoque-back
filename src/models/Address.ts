@@ -13,7 +13,7 @@ export interface AddressInstance
   city: string;
   state: string;
   country: string;
-  zipCode: string;
+  zipcode: string;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
@@ -38,7 +38,7 @@ const Address = sequelize.define<AddressInstance>(
     city: Sequelize.STRING,
     state: Sequelize.STRING,
     country: Sequelize.STRING,
-    zipCode: Sequelize.STRING,
+    zipcode: Sequelize.STRING,
     createdAt: {
       type: Sequelize.DATE,
       allowNull: false,

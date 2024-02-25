@@ -6,6 +6,7 @@ import sequelize from '../services/sequelize';
 import Products, { ProductModel } from './Products';
 import Account from './Accounts';
 import OrderProducts from './OrdersProducts';
+import User from './Users';
 
 interface OrderModel extends Model<InferAttributes<OrderModel>, InferCreationAttributes<OrderModel>> {
   id: CreationOptional<string>;
@@ -13,7 +14,7 @@ interface OrderModel extends Model<InferAttributes<OrderModel>, InferCreationAtt
   userId: string;
   total: CreationOptional<number>;
   status: CreationOptional<'pending' | 'canceled' | 'delivered' | 'in_progress' | 'approved'>;
-  paymentMethod: CreationOptional<'credit_card' | 'debit_card' | 'billet' | 'cash' | 'pix'>;
+  paymentMethod: CreationOptional<'card' | 'cash' | 'pix'>;
   addition: CreationOptional<number>;
   discount: CreationOptional<number>;
   subtotal: CreationOptional<number>;
@@ -63,9 +64,8 @@ const Orders = sequelize.define<OrderModel>(
       defaultValue: 0,
     },
     status: {
-      type: DataTypes.ENUM('pending', 'canceled', 'delivered', 'in_progress', 'approved'),
-
-      defaultValue: 'pending',
+      type: DataTypes.ENUM('awaiting', 'canceled', 'delivered', 'in_progress', 'approved'),
+      defaultValue: 'awaiting',
     },
     paymentMethod: {
       type: DataTypes.ENUM('credit_card', 'debit_card', 'billet', 'cash', 'pix'),
@@ -92,6 +92,11 @@ Orders.associate = () => {
   Orders.belongsTo(Account, {
     foreignKey: 'accountId',
     as: 'account',
+  });
+
+  Orders.belongsTo(User, {
+    foreignKey: 'userId',
+    as: 'user',
   });
 
   Orders.belongsToMany(Products, {

@@ -13,7 +13,7 @@ export const rulesAddress = {
         city: z.string().min(3).max(255),
         state: z.string().min(2).max(2),
         country: z.string().min(3).max(255),
-        zipCode: z.string().min(8).max(8),
+        zipcode: z.string().min(8).max(8),
       }).parse(req.body);
 
       next();
@@ -33,7 +33,7 @@ export const rulesAddress = {
         city: z.string().min(3).max(255),
         state: z.string().min(2).max(2),
         country: z.string().min(3).max(255),
-        zipCode: z.string().min(8).max(8),
+        zipcode: z.string().min(8).max(8),
       }).parse(req.body);
 
       next();

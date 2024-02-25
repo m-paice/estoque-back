@@ -12,7 +12,7 @@ export const rulesOrders = {
             cellPhone: z.string().min(3).max(255),
             address: z
               .object({
-                zipCode: z.string().min(3).max(255),
+                zipcode: z.string().min(3).max(255),
                 street: z.string().min(3).max(255),
                 number: z.string().min(3).max(255),
                 complement: z.string().min(3).max(255),
@@ -31,7 +31,7 @@ export const rulesOrders = {
             amount: z.number().min(1),
           }),
         ),
-        paymentMethod: z.enum(['credit_card', 'debit_card', 'billet', 'cash', 'pix']),
+        paymentMethod: z.enum(['card', 'cash', 'pix']),
         addition: z.number().min(0).default(0),
         discount: z.number().min(0).default(0),
       }).parse(req.body);

@@ -7,6 +7,8 @@ import Account from './Accounts';
 import Orders from './Orders';
 import OrderProducts from './OrdersProducts';
 import Categories from './Categories';
+import Color, { ColorInstance } from './Colors';
+import Size, { SizeInstance } from './Sizes';
 
 export interface ProductModel extends Model<InferAttributes<ProductModel>, InferCreationAttributes<ProductModel>> {
   id: CreationOptional<string>;
@@ -18,6 +20,9 @@ export interface ProductModel extends Model<InferAttributes<ProductModel>, Infer
   createdAt: CreationOptional<Date>;
   updatedAt: CreationOptional<Date>;
   deletedAt?: CreationOptional<Date | null>;
+
+  addColor: (color: ColorInstance, options?: any) => Promise<void>;
+  addSize: (size: SizeInstance, options?: any) => Promise<void>;
 }
 
 const Products = sequelize.define<ProductModel>(
@@ -69,6 +74,15 @@ Products.associate = () => {
     through: OrderProducts,
     foreignKey: 'productId',
     as: 'orders',
+  });
+
+  Products.hasMany(Color, {
+    foreignKey: 'productId',
+    as: 'colors',
+  });
+  Products.hasMany(Size, {
+    foreignKey: 'productId',
+    as: 'sizes',
   });
 };
 

@@ -10,6 +10,22 @@ export const rulesProducts = {
         description: z.string().min(3).max(255),
         price: z.number().min(0),
         amount: z.number().min(0),
+        colors: z
+          .array(
+            z.object({
+              name: z.string(),
+              value: z.string(),
+            }),
+          )
+          .default([]),
+        sizes: z
+          .array(
+            z.object({
+              name: z.string(),
+              value: z.string(),
+            }),
+          )
+          .default([]),
       }).parse(req.body);
 
       next();

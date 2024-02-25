@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('address', {
+    queryInterface.createTable('sizes', {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -17,23 +17,17 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      userId: {
+      productId: {
         type: Sequelize.UUID,
         references: {
-          model: 'users',
+          model: 'products',
           key: 'id',
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      street: Sequelize.STRING,
-      number: Sequelize.STRING,
-      complement: Sequelize.STRING,
-      neighborhood: Sequelize.STRING,
-      city: Sequelize.STRING,
-      state: Sequelize.STRING,
-      country: Sequelize.STRING,
-      zipcode: Sequelize.STRING,
+      name: Sequelize.STRING,
+      value: Sequelize.STRING,
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -47,5 +41,5 @@ module.exports = {
       },
     }),
 
-  down: (queryInterface) => queryInterface.dropTable('address'),
+  down: (queryInterface) => queryInterface.dropTable('sizes'),
 };

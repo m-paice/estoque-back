@@ -7,7 +7,7 @@ interface LoginRequest {
 }
 
 export const login = async (data: LoginRequest) => {
-  const user = await Users.findOne({ where: { cellPhone: data.cellPhone } });
+  const user = await Users.findOne({ where: { cellPhone: data.cellPhone }, include: ['addresses'] });
   if (!user) throw new HttpError(404, 'invalid credentials');
   if (user.password !== data.password) throw new HttpError(404, 'invalid credentials');
 

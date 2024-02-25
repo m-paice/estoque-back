@@ -3,6 +3,7 @@ import Orders from '../models/Orders';
 import Products from '../models/Products';
 import queuedAsyncMap from '../utils/queuedAsyncMap';
 import sequelize from '../services/sequelize';
+import User from '../models/Users';
 
 interface ProductsRequest {
   id: string;
@@ -13,6 +14,7 @@ interface OrderCreateRequest {
   accountId: string;
   userId: string;
   products: ProductsRequest[];
+  paymentMethod: 'cash' | 'pix' | 'card';
 }
 
 export const create = async (data: OrderCreateRequest) => {
@@ -25,6 +27,7 @@ export const create = async (data: OrderCreateRequest) => {
       {
         userId: data.userId,
         accountId: data.accountId,
+        paymentMethod: data.paymentMethod,
       },
       { transaction },
     );
@@ -37,7 +40,11 @@ export const create = async (data: OrderCreateRequest) => {
       // check if product exists
       if (!product) throw new HttpError(404, 'Product not found');
       // check if product amount is sufficient
-      if (product.amount < item.amount) throw new HttpError(400, 'Insufficient stock');
+      if (product.amount < item.amount)
+        throw new HttpError(400, {
+          code: 'api.orders.create.insufficientStock',
+          message: 'Insufficient stock',
+        });
       // calculate total
       total += item.amount * product.price;
       // add product to order
@@ -64,10 +71,19 @@ export const create = async (data: OrderCreateRequest) => {
   }
 };
 
-export const list = async () => Orders.findAll();
+export const list = async () => Orders.findAll({ include: ['products'] });
 
 export const get = async (id: string) => {
-  const order = await Orders.findByPk(id);
+  const order = await Orders.findByPk(id, {
+    include: [
+      'products',
+      {
+        model: User,
+        as: 'user',
+        include: ['addresses'],
+      },
+    ],
+  });
   if (!order) throw new HttpError(404, 'Order not found');
   return order;
 };
