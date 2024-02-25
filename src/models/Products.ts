@@ -3,14 +3,15 @@ import Sequelize, { CreationOptional, InferAttributes, InferCreationAttributes, 
 import sequelize from '../services/sequelize';
 
 // models
-import Account from './Accounts';
+import Account, { AccountInstance } from './Accounts';
 import Orders from './Orders';
 import OrderProducts from './OrdersProducts';
-import Categories from './Categories';
+import Categories, { CategoriesInstance } from './Categories';
 
 export interface ProductModel extends Model<InferAttributes<ProductModel>, InferCreationAttributes<ProductModel>> {
   id: CreationOptional<string>;
   accountId: string;
+  categoryId: CreationOptional<string>;
   name: string;
   description: string;
   price: number;
@@ -18,6 +19,9 @@ export interface ProductModel extends Model<InferAttributes<ProductModel>, Infer
   createdAt: CreationOptional<Date>;
   updatedAt: CreationOptional<Date>;
   deletedAt?: CreationOptional<Date | null>;
+
+  account?: AccountInstance;
+  category?: CategoriesInstance;
 }
 
 const Products = sequelize.define<ProductModel>(
@@ -31,6 +35,9 @@ const Products = sequelize.define<ProductModel>(
     accountId: {
       type: Sequelize.UUID,
       allowNull: false,
+    },
+    categoryId: {
+      type: Sequelize.UUID,
     },
     name: Sequelize.STRING,
     description: Sequelize.STRING,

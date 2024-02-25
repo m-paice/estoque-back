@@ -1,15 +1,17 @@
-import Sequelize from 'sequelize';
+import Sequelize, { CreationOptional, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 
 import sequelize from '../services/sequelize';
 
-export type AccountInstance = {
-  id: string;
+export interface AccountInstance
+  extends Model<InferAttributes<AccountInstance>, InferCreationAttributes<AccountInstance>> {
+  id: CreationOptional<string>;
   name: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-};
+  createdAt: CreationOptional<Date>;
+  updatedAt: CreationOptional<Date>;
+  deletedAt?: CreationOptional<Date | null>;
+}
 
-export const Account = sequelize.define(
+export const Account = sequelize.define<AccountInstance>(
   'Account',
   {
     id: {
