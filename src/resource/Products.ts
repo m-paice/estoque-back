@@ -1,19 +1,8 @@
 import { HttpError } from '../utils/error/HttpError';
 import Products from '../models/Products';
-import queuedAsyncMap from '../utils/queuedAsyncMap';
-
-import * as colorResource from './Colors';
-import * as sizeResource from './Sizes';
-
-interface Color {
-  name: string;
-  value: string;
-}
-
-interface Size {
-  name: string;
-  value: string;
-}
+import * as variantsResource from './Variants';
+import * as categoriesResource from './Categories';
+import Categories from '../models/Categories';
 
 interface CreateProductParams {
   accountId: string;
@@ -21,38 +10,24 @@ interface CreateProductParams {
   description: string;
   price: number;
   amount: number;
-  colors: Color[];
-  sizes: Size[];
+  categories: string[];
+  variants: {
+    price: number;
+    amount: number;
+    color: string;
+    size: string;
+  }[];
 }
 
 export const create = async (data: CreateProductParams) => {
   const product = await Products.create(data);
 
-  if (data.colors.length) {
-    await queuedAsyncMap(data.colors, async (color: Color) => {
-      const result = await colorResource.create({
-        accountId: data.accountId,
-        productId: product.id,
-        name: color.name,
-        value: color.value,
-      });
+  await Promise.all(
+    data.variants.map((item) => variantsResource.create({ ...item, productId: product.id, accountId: data.accountId })),
+  );
 
-      await product.addColor(result);
-    });
-  }
-
-  if (data.sizes.length) {
-    await queuedAsyncMap(data.sizes, async (size: Size) => {
-      const result = await sizeResource.create({
-        accountId: data.accountId,
-        productId: product.id,
-        name: size.name,
-        value: size.value,
-      });
-
-      await product.addSize(result);
-    });
-  }
+  const categories = await categoriesResource.findManyByIds(data.categories);
+  await product.addCategories(categories);
 
   return product;
 };
@@ -60,12 +35,26 @@ export const create = async (data: CreateProductParams) => {
 export const list = async ({ query }: { query: any }) =>
   Products.findAll({
     where: query.where,
-    include: ['colors', 'sizes'],
+    include: [
+      'variants',
+      {
+        model: Categories,
+        as: 'categories',
+        attributes: ['id', 'name'],
+      },
+    ],
   });
 
 export const get = async (id: string) => {
   const product = await Products.findByPk(id, {
-    include: ['colors', 'sizes', 'category'],
+    include: [
+      'variants',
+      {
+        model: Categories,
+        as: 'categories',
+        attributes: ['id', 'name'],
+      },
+    ],
   });
   if (!product) throw new HttpError(404, 'Product not found');
   return product;

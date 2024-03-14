@@ -1,16 +1,10 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('colors', {
-      id: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
-        primaryKey: true,
-        allowNull: false,
-      },
-      accountId: {
+    queryInterface.createTable('categories_products', {
+      categoryId: {
         type: Sequelize.UUID,
         references: {
-          model: 'accounts',
+          model: 'categories',
           key: 'id',
         },
         allowNull: false,
@@ -23,11 +17,10 @@ module.exports = {
           model: 'products',
           key: 'id',
         },
+        allowNull: false,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      name: Sequelize.STRING,
-      value: Sequelize.STRING,
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -41,5 +34,5 @@ module.exports = {
       },
     }),
 
-  down: (queryInterface) => queryInterface.dropTable('colors'),
+  down: (queryInterface) => queryInterface.dropTable('categories_products'),
 };

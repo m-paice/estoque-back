@@ -2,19 +2,22 @@ import Sequelize, { CreationOptional, InferAttributes, InferCreationAttributes, 
 
 import sequelize from '../services/sequelize';
 
-export interface ColorInstance extends Model<InferAttributes<ColorInstance>, InferCreationAttributes<ColorInstance>> {
+export interface VariantsInstance
+  extends Model<InferAttributes<VariantsInstance>, InferCreationAttributes<VariantsInstance>> {
   id: CreationOptional<string>;
   accountId: string;
-  productId: string;
-  name: string;
-  value: string;
+  productId?: string;
+  price: number;
+  amount: number;
+  color: string;
+  size: string;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
 }
 
-const Color = sequelize.define<ColorInstance>(
-  'Color',
+const Variants = sequelize.define<VariantsInstance>(
+  'Variants',
   {
     id: {
       type: Sequelize.UUID,
@@ -29,8 +32,10 @@ const Color = sequelize.define<ColorInstance>(
       type: Sequelize.UUID,
       allowNull: false,
     },
-    name: Sequelize.STRING,
-    value: Sequelize.STRING,
+    price: Sequelize.FLOAT,
+    amount: Sequelize.INTEGER,
+    color: Sequelize.STRING,
+    size: Sequelize.STRING,
     createdAt: {
       type: Sequelize.DATE,
       allowNull: false,
@@ -44,20 +49,20 @@ const Color = sequelize.define<ColorInstance>(
     },
   },
   {
-    tableName: 'colors',
+    tableName: 'variants',
     paranoid: true,
   },
 );
 
-Color.associate = (models) => {
-  Color.belongsTo(models.Accounts, {
+Variants.associate = (models) => {
+  Variants.belongsTo(models.Accounts, {
     foreignKey: 'accountId',
     as: 'account',
   });
-  Color.belongsTo(models.Products, {
+  Variants.belongsTo(models.Products, {
     foreignKey: 'productId',
     as: 'product',
   });
 };
 
-export default Color;
+export default Variants;

@@ -6,8 +6,6 @@ module.exports = {
         accountId: 'b028b437-dc0f-42b5-96f9-cc38d4302a7f',
         name: 'Notebook',
         description: '',
-        price: 100,
-        amount: 10,
         createdAt: new Date(),
         updatedAt: new Date(),
         deletedAt: null,

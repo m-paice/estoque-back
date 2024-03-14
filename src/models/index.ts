@@ -3,10 +3,10 @@ import Users from './Users';
 import Products from './Products';
 import Orders from './Orders';
 import OrderProducts from './OrdersProducts';
+import CategoriesProducts from './CategoriesProducts';
 import Address from './Address';
 import Categories from './Categories';
-import Colors from './Colors';
-import Sizes from './Sizes';
+import Variants from './Variants';
 
 export default {
   Accounts,
@@ -16,6 +16,6 @@ export default {
   OrderProducts,
   Address,
   Categories,
-  Colors,
-  Sizes,
+  Variants,
+  CategoriesProducts,
 };

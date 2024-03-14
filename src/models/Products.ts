@@ -6,9 +6,9 @@ import sequelize from '../services/sequelize';
 import Account from './Accounts';
 import Orders from './Orders';
 import OrderProducts from './OrdersProducts';
-import Categories from './Categories';
-import Color, { ColorInstance } from './Colors';
-import Size, { SizeInstance } from './Sizes';
+import Variants from './Variants';
+import CategoriesProducts from './CategoriesProducts';
+import Categories, { CategoriesInstance } from './Categories';
 
 export interface ProductModel extends Model<InferAttributes<ProductModel>, InferCreationAttributes<ProductModel>> {
   id: CreationOptional<string>;
@@ -21,8 +21,7 @@ export interface ProductModel extends Model<InferAttributes<ProductModel>, Infer
   updatedAt: CreationOptional<Date>;
   deletedAt?: CreationOptional<Date | null>;
 
-  addColor: (color: ColorInstance, options?: any) => Promise<void>;
-  addSize: (size: SizeInstance, options?: any) => Promise<void>;
+  addCategories: (categories: CategoriesInstance[]) => Promise<CategoriesInstance[]>;
 }
 
 const Products = sequelize.define<ProductModel>(
@@ -65,9 +64,10 @@ Products.associate = () => {
     as: 'account',
   });
 
-  Products.belongsTo(Categories, {
-    foreignKey: 'categoryId',
-    as: 'category',
+  Products.belongsToMany(Categories, {
+    through: CategoriesProducts,
+    foreignKey: 'productId',
+    as: 'categories',
   });
 
   Products.belongsToMany(Orders, {
@@ -76,13 +76,9 @@ Products.associate = () => {
     as: 'orders',
   });
 
-  Products.hasMany(Color, {
+  Products.hasMany(Variants, {
     foreignKey: 'productId',
-    as: 'colors',
-  });
-  Products.hasMany(Size, {
-    foreignKey: 'productId',
-    as: 'sizes',
+    as: 'variants',
   });
 };
 

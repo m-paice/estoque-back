@@ -8,6 +8,15 @@ export const list = async ({ query }: { query?: string }) => {
   return Categories.findAll({ where });
 };
 
+export const findManyByIds = async (ids: string[]) =>
+  Categories.findAll({
+    where: {
+      id: {
+        $in: ids,
+      },
+    },
+  });
+
 export const get = async (id: string) => {
   const user = await Categories.findByPk(id, {
     include: ['products'],

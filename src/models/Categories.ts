@@ -1,6 +1,7 @@
 import Sequelize, { CreationOptional, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 
 import sequelize from '../services/sequelize';
+import CategoriesProducts from './CategoriesProducts';
 
 export interface CategoriesInstance
   extends Model<InferAttributes<CategoriesInstance>, InferCreationAttributes<CategoriesInstance>> {
@@ -50,7 +51,8 @@ Categories.associate = (models) => {
     foreignKey: 'accountId',
     as: 'account',
   });
-  Categories.hasMany(models.Products, {
+  Categories.belongsToMany(models.Products, {
+    through: CategoriesProducts,
     foreignKey: 'categoryId',
     as: 'products',
   });

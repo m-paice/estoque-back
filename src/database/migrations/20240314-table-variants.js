@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('sizes', {
+    queryInterface.createTable('variants', {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -24,10 +24,12 @@ module.exports = {
           key: 'id',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
+        onDelete: 'SET NULL',
       },
-      name: Sequelize.STRING,
-      value: Sequelize.STRING,
+      price: Sequelize.FLOAT,
+      amount: Sequelize.INTEGER,
+      color: Sequelize.STRING,
+      size: Sequelize.STRING,
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -41,5 +43,5 @@ module.exports = {
       },
     }),
 
-  down: (queryInterface) => queryInterface.dropTable('sizes'),
+  down: (queryInterface) => queryInterface.dropTable('variants'),
 };
