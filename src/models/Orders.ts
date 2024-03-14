@@ -13,7 +13,7 @@ interface OrderModel extends Model<InferAttributes<OrderModel>, InferCreationAtt
   accountId: string;
   userId: string;
   total: CreationOptional<number>;
-  status: CreationOptional<'pending' | 'canceled' | 'delivered' | 'in_progress' | 'approved'>;
+  status: CreationOptional<'awaiting' | 'canceled' | 'delivered' | 'in_progress' | 'approved'>;
   paymentMethod: CreationOptional<'card' | 'cash' | 'pix'>;
   addition: CreationOptional<number>;
   discount: CreationOptional<number>;

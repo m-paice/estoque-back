@@ -6,6 +6,7 @@ export interface AddressInstance
   extends Model<InferAttributes<AddressInstance>, InferCreationAttributes<AddressInstance>> {
   id: CreationOptional<string>;
   accountId: string;
+  userId?: string;
   street: string;
   number: string;
   complement: string;

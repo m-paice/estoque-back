@@ -50,6 +50,10 @@ Categories.associate = (models) => {
     foreignKey: 'accountId',
     as: 'account',
   });
+  Categories.hasMany(models.Products, {
+    foreignKey: 'categoryId',
+    as: 'products',
+  });
 };
 
 export default Categories;

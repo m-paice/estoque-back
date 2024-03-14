@@ -6,7 +6,7 @@ import { accountContext } from '../../../middleware/accountContext';
 import { rulesCategories } from '../rules/categories';
 
 const controllers = {
-  list: promiseHandler(() => categoriesResource.list()),
+  list: promiseHandler((req) => categoriesResource.list({ query: req.query.q?.toString() })),
   show: promiseHandler((req) => categoriesResource.get(req.params.id)),
   create: promiseHandler((req) => categoriesResource.create(req.body)),
   update: promiseHandler((req) => categoriesResource.update(req.params.id, req.body)),

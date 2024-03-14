@@ -3,10 +3,15 @@ import Categories from '../models/Categories';
 
 export const create = async (data) => Categories.create(data);
 
-export const list = async () => Categories.findAll();
+export const list = async ({ query }: { query?: string }) => {
+  const where = query ? { name: { $iLike: `%${query}%` } } : {};
+  return Categories.findAll({ where });
+};
 
 export const get = async (id: string) => {
-  const user = await Categories.findByPk(id);
+  const user = await Categories.findByPk(id, {
+    include: ['products'],
+  });
   if (!user) throw new HttpError(404, 'Category not found');
   return user;
 };

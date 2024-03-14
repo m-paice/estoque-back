@@ -57,14 +57,15 @@ export const create = async (data: CreateProductParams) => {
   return product;
 };
 
-export const list = async () =>
+export const list = async ({ query }: { query: any }) =>
   Products.findAll({
+    where: query.where,
     include: ['colors', 'sizes'],
   });
 
 export const get = async (id: string) => {
   const product = await Products.findByPk(id, {
-    include: ['colors', 'sizes'],
+    include: ['colors', 'sizes', 'category'],
   });
   if (!product) throw new HttpError(404, 'Product not found');
   return product;
